@@ -14,8 +14,7 @@ import random
 import sys
 import geohash as geohash_lib
 from utils import top_k_acc_last_timestep, ndcg_last_timestep
-from model import POIGraph, TransformerModel, UserEmbeddings, Time2Vec, FuseEmbeddings, \
-    ModalityDisentanglement, UserModalityPreference, MissingModalityGenerator, DisenLoss
+from model import POIGraph, TransformerModel, UserEmbeddings, Time2Vec, FuseEmbeddings, DisenModule
 from param_parser import parameter_parser
 
 args = parameter_parser()
@@ -233,9 +232,7 @@ seq_model = TransformerModel(num_pois, num_geos, num_times, dim,
                              args.transformer_nhead, args.transformer_nhid,
                              args.transformer_nlayers, dropout=args.transformer_dropout)
 
-model_disentangle = ModalityDisentanglement(embed_dim=dim)
-model_user_pref = UserModalityPreference(num_users=num_users, num_modalities=2, embed_dim=dim)
-model_missing_gen = MissingModalityGenerator(embed_dim=dim)
+disen_module = DisenModule(embed_dim=dim, num_users=num_users)
 
 poi_embed_model = poi_embed_model.to(device=args.device)
 user_embed_model = user_embed_model.to(device=args.device)
@@ -243,14 +240,13 @@ time_embed_model = time_embed_model.to(device=args.device)
 geo_embed_model = geo_embed_model.to(device=args.device)
 embed_fuse_model = embed_fuse_model.to(device=args.device)
 seq_model = seq_model.to(device=args.device)
-model_disentangle = model_disentangle.to(device=args.device)
-model_user_pref = model_user_pref.to(device=args.device)
-model_missing_gen = model_missing_gen.to(device=args.device)
+disen_module = disen_module.to(device=args.device)
 
 optimizer = optim.Adam(
     list(poi_embed_model.parameters()) + list(user_embed_model.parameters()) +
     list(time_embed_model.parameters()) + list(embed_fuse_model.parameters()) +
-    list(seq_model.parameters()) + list(geo_embed_model.parameters()),
+    list(seq_model.parameters()) + list(geo_embed_model.parameters()) +
+    list(disen_module.parameters()),
     lr=args.lr, weight_decay=args.weight_decay)
 
 lr_scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
@@ -259,8 +255,6 @@ lr_scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
 # Loss functions
 criterion_poi = nn.CrossEntropyLoss(ignore_index=-1)
 criterion_geo = nn.CrossEntropyLoss(ignore_index=-1)
-criterion_time = nn.CrossEntropyLoss(ignore_index=-1)
-model_loss_fn = modelLoss(temperature=0.07)
 criterion_time = nn.CrossEntropyLoss(ignore_index=-1)
 
 # Prepare indices for embedding lookup
@@ -331,6 +325,8 @@ if args.checkpoint:
         geo_embed_model.load_state_dict(checkpoint['geo_embed'])
         embed_fuse_model.load_state_dict(checkpoint['fuse_embed'])
         seq_model.load_state_dict(checkpoint['seq_model'])
+        if 'disen_module' in checkpoint:
+            disen_module.load_state_dict(checkpoint['disen_module'])
         logging.info(f"Checkpoint loaded (epoch={checkpoint.get('epoch', '?')}, "
                      f"val_recall5={checkpoint.get('val_recall5', '?')})")
 
@@ -397,13 +393,8 @@ for epoch in range(0 if args.test_only else args.epochs):
         # Loss
         loss = args.loss_weight_poi * criterion_poi(y_pred_poi.transpose(1, 2), y_poi) + \
                args.loss_weight_time * criterion_time(y_pred_time.transpose(1, 2), y_time) + \
-               args.loss_weight_geo * criterion_geo(y_pred_geo.transpose(1, 2), y_geo)
-
-        with torch.no_grad():
-            _x_mean = x.mean(dim=1)
-            _common, _specifics = model_disentangle([_x_mean, _x_mean])
-            _gen = model_missing_gen(_common, _specifics[0])
-            _ = model_loss_fn(_common, _specifics, _gen, _x_mean)
+               args.loss_weight_geo * criterion_geo(y_pred_geo.transpose(1, 2), y_geo) + \
+               args.loss_weight_disen * disen_module(x.mean(dim=1))
 
         optimizer.zero_grad()
         loss.backward()
@@ -493,6 +484,7 @@ for epoch in range(0 if args.test_only else args.epochs):
             'geo_embed': geo_embed_model.state_dict(),
             'fuse_embed': embed_fuse_model.state_dict(),
             'seq_model': seq_model.state_dict(),
+            'disen_module': disen_module.state_dict(),
             'epoch': epoch,
             'val_recall5': best_val_acc,
         }, checkpoint_path)
