@@ -67,7 +67,6 @@ cd RoPOI-main
 ```
 
 - 📦 Download dataset: [NYC.zip](https://drive.google.com/file/d/1xLXcRriNpMF9rAqsQOc4csjJBAeBuziP/view?usp=sharing) → unzip to `data/NYC/`
-- 💾 Download checkpoint: [RoPOI_best.pth](https://drive.google.com/file/d/1T83jRs-iGZ6zEDNhpKZpJXMYQFOnBY2A/view?usp=sharing)
 
 ### 2. Build Graphs
 
@@ -88,6 +87,8 @@ python run.py
 ```shell
 python run.py --test_only --checkpoint RoPOI_best_20260415_152057.pth
 ```
+
+- 💾 Download checkpoint: [RoPOI_best.pth](https://drive.google.com/file/d/1T83jRs-iGZ6zEDNhpKZpJXMYQFOnBY2A/view?usp=sharing)
 
 ---
 
