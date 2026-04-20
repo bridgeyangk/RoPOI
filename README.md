@@ -7,7 +7,9 @@ This is the PyTorch implementation of the paper "RoPOI: Robust POI Recommendatio
 
 ## Train
 
-- Download dataset from https://drive.google.com/file/d/17FbNvkO74xub6AeT2fpm938qDqUDB-04/view?usp=sharing.
+- Download dataset from https://drive.google.com/file/d/1xLXcRriNpMF9rAqsQOc4csjJBAeBuziP/view?usp=sharing.
+
+- Download checkpoint from https://drive.google.com/file/d/1T83jRs-iGZ6zEDNhpKZpJXMYQFOnBY2A/view?usp=sharing.
 
 - Unzip `NYC.zip` to `dataset/`.
 
