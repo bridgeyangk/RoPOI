@@ -51,14 +51,8 @@ def parameter_parser():
     parser.add_argument('--loss_weight_poi', type=float, default=1.0)
     parser.add_argument('--loss_weight_time', type=float, default=0.2)
     parser.add_argument('--loss_weight_geo', type=float, default=0.2)
+    parser.add_argument('--loss_weight_disen', type=float, default=0.01)
 
-    # EM-POI parameters
-    parser.add_argument('--beta', type=float, default=0.1,
-                        help='Information bottleneck (MIB) KL regularization strength')
-    parser.add_argument('--lambda_trb', type=float, default=0.5,
-                        help='Task-relevance branch loss weight')
-    parser.add_argument('--trb_hidden_dim', type=int, default=256,
-                        help='Hidden dimension for TaskRelevanceBranch')
 
     # Test mode
     parser.add_argument('--test_only', action='store_true', default=False,
