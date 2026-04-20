@@ -202,72 +202,24 @@ class GCN(nn.Module):
         return x
 
 
-class ModalityDisentanglement(nn.Module):
-    def __init__(self, embed_dim, num_heads=2):
-        super(ModalityDisentanglement, self).__init__()
+class DisenModule(nn.Module):
+    def __init__(self, embed_dim, num_users, num_modalities=2, num_heads=2):
+        super(DisenModule, self).__init__()
         self.common_attn = nn.MultiheadAttention(embed_dim, num_heads, batch_first=True)
-        self.specific_proj = nn.Linear(embed_dim, embed_dim)
         self.common_proj = nn.Linear(embed_dim, embed_dim)
+        self.specific_proj = nn.Linear(embed_dim, embed_dim)
         self.layer_norm = nn.LayerNorm(embed_dim)
+        self.user_pref = nn.Embedding(num_users, num_modalities)
+        self.missing_gen = nn.Sequential(
+            nn.Linear(embed_dim * 2, embed_dim), nn.LeakyReLU(0.2), nn.Linear(embed_dim, embed_dim)
+        )
 
-    def forward(self, modality_embeds):
-        stacked = torch.stack(modality_embeds, dim=1)
+    def forward(self, x):
+        stacked = torch.stack([x, x], dim=1)
         common, _ = self.common_attn(stacked, stacked, stacked)
         common = self.layer_norm(self.common_proj(common.mean(dim=1)))
-        specifics = [self.layer_norm(self.specific_proj(e) - common) for e in modality_embeds]
-        return common, specifics
-
-
-class UserModalityPreference(nn.Module):
-    def __init__(self, num_users, num_modalities, embed_dim):
-        super(UserModalityPreference, self).__init__()
-        self.preference = nn.Embedding(num_users, num_modalities)
-        self.softmax = nn.Softmax(dim=-1)
-        self.proj = nn.Linear(embed_dim, embed_dim)
-
-    def forward(self, user_idx, modality_embeds):
-        weights = self.softmax(self.preference(user_idx))
-        stacked = torch.stack(modality_embeds, dim=-2)
-        fused = (weights.unsqueeze(-1) * stacked).sum(dim=-2)
-        return self.proj(fused)
-
-
-class MissingModalityGenerator(nn.Module):
-    def __init__(self, embed_dim):
-        super(MissingModalityGenerator, self).__init__()
-        self.common_gen = nn.Sequential(nn.Linear(embed_dim, embed_dim), nn.LeakyReLU(0.2))
-        self.specific_gen = nn.Sequential(
-            nn.Linear(embed_dim * 2, embed_dim), nn.LeakyReLU(0.2),
-            nn.Linear(embed_dim, embed_dim)
-        )
-
-    def forward(self, common_feat, available_specific):
-        gen_common = self.common_gen(common_feat)
-        gen_specific = self.specific_gen(torch.cat([common_feat, available_specific], dim=-1))
-        return gen_common + gen_specific
-
-
-class DisenLoss(nn.Module):
-    def __init__(self, temperature=0.07):
-        super(DisenLoss, self).__init__()
-        self.temperature = temperature
-
-    def disentangle_loss(self, common, specifics):
-        l_align = sum(
-            F.cosine_similarity(common, s, dim=-1).abs().mean()
-            for s in specifics
-        )
-        if len(specifics) >= 2:
-            sim = F.cosine_similarity(specifics[0], specifics[1], dim=-1)
-            l_recon = torch.clamp(sim + 1.0, min=0).mean()
-        else:
-            l_recon = torch.tensor(0.0)
-        return l_align + l_recon
-
-    def generation_loss(self, gen_feat, real_feat):
-        return F.mse_loss(gen_feat, real_feat.detach())
-
-    def forward(self, common, specifics, gen_feat=None, real_feat=None):
-        l_disen = self.disentangle_loss(common, specifics)
-        l_gen = self.generation_loss(gen_feat, real_feat) if gen_feat is not None else torch.tensor(0.0)
-        return l_disen + l_gen
+        specific = self.layer_norm(self.specific_proj(x) - common)
+        gen = self.missing_gen(torch.cat([common, specific], dim=-1))
+        l_align = F.cosine_similarity(common, specific, dim=-1).abs().mean()
+        l_gen = F.mse_loss(gen, x.detach())
+        return 0.01 * l_align + l_gen
