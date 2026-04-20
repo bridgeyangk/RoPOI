@@ -1,0 +1,242 @@
+2026-03-19 17:15:07,246 - INFO - Training log will be saved to: RoPOI_20260319_171507.log
+2026-03-19 17:15:07,246 - INFO - Checkpoint will be saved to: RoPOI_best_20260319_171507.pth
+2026-03-19 17:15:07,248 - INFO - Loading dataset...
+2026-03-19 17:15:07,568 - INFO - num_pois: 4618
+2026-03-19 17:15:07,570 - INFO - num_geos (regions): 1065
+2026-03-19 17:15:07,691 - INFO - num_users: 1080
+2026-03-19 17:15:07,692 - INFO - num_time_slots: 48
+2026-03-19 17:15:07,692 - INFO - Building user-POI statistics...
+2026-03-19 17:15:09,907 - INFO - Building edge index from trajectories...
+2026-03-19 17:16:32,309 - INFO - POI edges: 67760, Geo edges: 67760
+2026-03-19 17:16:32,309 - INFO - Creating dataloaders...
+2026-03-19 17:17:59,747 - INFO - Train: 14214, Val: 3103, Test: 3103
+2026-03-19 17:17:59,747 - INFO - Initializing models...
+2026-03-19 17:17:59,857 - INFO - MIB modules initialized (latent_dim=128, not used in inference path)
+2026-03-19 17:17:59,881 - INFO - Starting training...
+2026-03-19 17:18:38,943 - INFO - Epoch 1 - Train Loss: 8.9383
+2026-03-19 17:18:43,865 - INFO - Epoch 1/100 | val_loss:6.6907 | Recall@5:0.1782 | Recall@10:0.2285 | NDCG@10:0.1431
+2026-03-19 17:18:43,929 - INFO -   Best model saved — Recall@5=0.1782
+2026-03-19 17:19:22,982 - INFO - Epoch 2 - Train Loss: 6.7881
+2026-03-19 17:19:27,619 - INFO - Epoch 2/100 | val_loss:5.5075 | Recall@5:0.3110 | Recall@10:0.3935 | NDCG@10:0.2497
+2026-03-19 17:19:27,675 - INFO -   Best model saved — Recall@5=0.3110
+2026-03-19 17:20:07,269 - INFO - Epoch 3 - Train Loss: 5.6336
+2026-03-19 17:20:12,331 - INFO - Epoch 3/100 | val_loss:5.0289 | Recall@5:0.3764 | Recall@10:0.4763 | NDCG@10:0.2988
+2026-03-19 17:20:12,392 - INFO -   Best model saved — Recall@5=0.3764
+2026-03-19 17:20:50,708 - INFO - Epoch 4 - Train Loss: 5.0481
+2026-03-19 17:20:55,397 - INFO - Epoch 4/100 | val_loss:4.7703 | Recall@5:0.4199 | Recall@10:0.5253 | NDCG@10:0.3369
+2026-03-19 17:20:55,457 - INFO -   Best model saved — Recall@5=0.4199
+2026-03-19 17:21:35,253 - INFO - Epoch 5 - Train Loss: 4.6865
+2026-03-19 17:21:39,953 - INFO - Epoch 5/100 | val_loss:4.5945 | Recall@5:0.4525 | Recall@10:0.5498 | NDCG@10:0.3597
+2026-03-19 17:21:40,009 - INFO -   Best model saved — Recall@5=0.4525
+2026-03-19 17:22:21,403 - INFO - Epoch 6 - Train Loss: 4.4537
+2026-03-19 17:22:26,143 - INFO - Epoch 6/100 | val_loss:4.4961 | Recall@5:0.4712 | Recall@10:0.5720 | NDCG@10:0.3716
+2026-03-19 17:22:26,208 - INFO -   Best model saved — Recall@5=0.4712
+2026-03-19 17:23:08,239 - INFO - Epoch 7 - Train Loss: 4.2665
+2026-03-19 17:23:12,931 - INFO - Epoch 7/100 | val_loss:4.4064 | Recall@5:0.4892 | Recall@10:0.5891 | NDCG@10:0.3849
+2026-03-19 17:23:13,001 - INFO -   Best model saved — Recall@5=0.4892
+2026-03-19 17:23:51,835 - INFO - Epoch 8 - Train Loss: 4.1631
+2026-03-19 17:23:56,962 - INFO - Epoch 8/100 | val_loss:4.3491 | Recall@5:0.4895 | Recall@10:0.5978 | NDCG@10:0.3902
+2026-03-19 17:23:57,025 - INFO -   Best model saved — Recall@5=0.4895
+2026-03-19 17:24:35,930 - INFO - Epoch 9 - Train Loss: 4.0239
+2026-03-19 17:24:40,813 - INFO - Epoch 9/100 | val_loss:4.3357 | Recall@5:0.4940 | Recall@10:0.6049 | NDCG@10:0.3950
+2026-03-19 17:24:40,882 - INFO -   Best model saved — Recall@5=0.4940
+2026-03-19 17:25:20,785 - INFO - Epoch 10 - Train Loss: 3.9273
+2026-03-19 17:25:25,450 - INFO - Epoch 10/100 | val_loss:4.3169 | Recall@5:0.5066 | Recall@10:0.6162 | NDCG@10:0.4035
+2026-03-19 17:25:25,501 - INFO -   Best model saved — Recall@5=0.5066
+2026-03-19 17:26:02,772 - INFO - Epoch 11 - Train Loss: 3.8464
+2026-03-19 17:26:07,396 - INFO - Epoch 11/100 | val_loss:4.3010 | Recall@5:0.5027 | Recall@10:0.6155 | NDCG@10:0.4016
+2026-03-19 17:26:44,695 - INFO - Epoch 12 - Train Loss: 3.7819
+2026-03-19 17:26:49,238 - INFO - Epoch 12/100 | val_loss:4.3016 | Recall@5:0.5176 | Recall@10:0.6220 | NDCG@10:0.4069
+2026-03-19 17:26:49,305 - INFO -   Best model saved — Recall@5=0.5176
+2026-03-19 17:27:26,439 - INFO - Epoch 13 - Train Loss: 3.7226
+2026-03-19 17:27:31,084 - INFO - Epoch 13/100 | val_loss:4.2656 | Recall@5:0.5172 | Recall@10:0.6226 | NDCG@10:0.4083
+2026-03-19 17:28:08,081 - INFO - Epoch 14 - Train Loss: 3.6735
+2026-03-19 17:28:12,680 - INFO - Epoch 14/100 | val_loss:4.2449 | Recall@5:0.5218 | Recall@10:0.6333 | NDCG@10:0.4161
+2026-03-19 17:28:12,739 - INFO -   Best model saved — Recall@5=0.5218
+2026-03-19 17:28:49,473 - INFO - Epoch 15 - Train Loss: 3.6195
+2026-03-19 17:28:54,073 - INFO - Epoch 15/100 | val_loss:4.2592 | Recall@5:0.5227 | Recall@10:0.6339 | NDCG@10:0.4135
+2026-03-19 17:28:54,136 - INFO -   Best model saved — Recall@5=0.5227
+2026-03-19 17:29:30,999 - INFO - Epoch 16 - Train Loss: 3.5693
+2026-03-19 17:29:35,527 - INFO - Epoch 16/100 | val_loss:4.2623 | Recall@5:0.5227 | Recall@10:0.6387 | NDCG@10:0.4145
+2026-03-19 17:30:12,266 - INFO - Epoch 17 - Train Loss: 3.5382
+2026-03-19 17:30:16,844 - INFO - Epoch 17/100 | val_loss:4.2743 | Recall@5:0.5150 | Recall@10:0.6339 | NDCG@10:0.4184
+2026-03-19 17:30:53,927 - INFO - Epoch 18 - Train Loss: 3.5021
+2026-03-19 17:30:58,520 - INFO - Epoch 18/100 | val_loss:4.2778 | Recall@5:0.5305 | Recall@10:0.6381 | NDCG@10:0.4164
+2026-03-19 17:30:58,580 - INFO -   Best model saved — Recall@5=0.5305
+2026-03-19 17:31:35,994 - INFO - Epoch 19 - Train Loss: 3.4703
+2026-03-19 17:31:40,626 - INFO - Epoch 19/100 | val_loss:4.2694 | Recall@5:0.5276 | Recall@10:0.6497 | NDCG@10:0.4244
+2026-03-19 17:32:17,672 - INFO - Epoch 20 - Train Loss: 3.4429
+2026-03-19 17:32:22,389 - INFO - Epoch 20/100 | val_loss:4.2853 | Recall@5:0.5266 | Recall@10:0.6403 | NDCG@10:0.4172
+2026-03-19 17:32:59,258 - INFO - Epoch 21 - Train Loss: 3.4243
+2026-03-19 17:33:03,828 - INFO - Epoch 21/100 | val_loss:4.2706 | Recall@5:0.5317 | Recall@10:0.6416 | NDCG@10:0.4222
+2026-03-19 17:33:03,883 - INFO -   Best model saved — Recall@5=0.5317
+2026-03-19 17:33:41,055 - INFO - Epoch 22 - Train Loss: 3.3971
+2026-03-19 17:33:45,644 - INFO - Epoch 22/100 | val_loss:4.2579 | Recall@5:0.5295 | Recall@10:0.6452 | NDCG@10:0.4249
+2026-03-19 17:34:22,497 - INFO - Epoch 23 - Train Loss: 3.3614
+2026-03-19 17:34:27,111 - INFO - Epoch 23/100 | val_loss:4.2973 | Recall@5:0.5327 | Recall@10:0.6394 | NDCG@10:0.4227
+2026-03-19 17:34:27,166 - INFO -   Best model saved — Recall@5=0.5327
+2026-03-19 17:35:04,147 - INFO - Epoch 24 - Train Loss: 3.3487
+2026-03-19 17:35:08,758 - INFO - Epoch 24/100 | val_loss:4.2938 | Recall@5:0.5346 | Recall@10:0.6423 | NDCG@10:0.4182
+2026-03-19 17:35:08,827 - INFO -   Best model saved — Recall@5=0.5346
+2026-03-19 17:35:45,923 - INFO - Epoch 25 - Train Loss: 3.3124
+2026-03-19 17:35:50,515 - INFO - Epoch 25/100 | val_loss:4.2794 | Recall@5:0.5372 | Recall@10:0.6439 | NDCG@10:0.4242
+2026-03-19 17:35:50,564 - INFO -   Best model saved — Recall@5=0.5372
+2026-03-19 17:36:27,433 - INFO - Epoch 26 - Train Loss: 3.2853
+2026-03-19 17:36:32,112 - INFO - Epoch 26/100 | val_loss:4.3111 | Recall@5:0.5346 | Recall@10:0.6452 | NDCG@10:0.4255
+2026-03-19 17:37:09,321 - INFO - Epoch 27 - Train Loss: 3.2709
+2026-03-19 17:37:13,928 - INFO - Epoch 27/100 | val_loss:4.2898 | Recall@5:0.5346 | Recall@10:0.6423 | NDCG@10:0.4216
+2026-03-19 17:37:50,796 - INFO - Epoch 28 - Train Loss: 3.2498
+2026-03-19 17:37:55,395 - INFO - Epoch 28/100 | val_loss:4.3109 | Recall@5:0.5414 | Recall@10:0.6516 | NDCG@10:0.4298
+2026-03-19 17:37:55,452 - INFO -   Best model saved — Recall@5=0.5414
+2026-03-19 17:38:32,692 - INFO - Epoch 29 - Train Loss: 3.2381
+2026-03-19 17:38:37,274 - INFO - Epoch 29/100 | val_loss:4.3142 | Recall@5:0.5427 | Recall@10:0.6516 | NDCG@10:0.4290
+2026-03-19 17:38:37,331 - INFO -   Best model saved — Recall@5=0.5427
+2026-03-19 17:39:14,310 - INFO - Epoch 30 - Train Loss: 3.2179
+2026-03-19 17:39:18,904 - INFO - Epoch 30/100 | val_loss:4.3298 | Recall@5:0.5430 | Recall@10:0.6423 | NDCG@10:0.4280
+2026-03-19 17:39:18,963 - INFO -   Best model saved — Recall@5=0.5430
+2026-03-19 17:39:55,874 - INFO - Epoch 31 - Train Loss: 3.2056
+2026-03-19 17:40:00,596 - INFO - Epoch 31/100 | val_loss:4.3162 | Recall@5:0.5314 | Recall@10:0.6452 | NDCG@10:0.4254
+2026-03-19 17:40:37,289 - INFO - Epoch 32 - Train Loss: 3.1931
+2026-03-19 17:40:41,842 - INFO - Epoch 32/100 | val_loss:4.3186 | Recall@5:0.5359 | Recall@10:0.6442 | NDCG@10:0.4274
+2026-03-19 17:41:18,367 - INFO - Epoch 33 - Train Loss: 3.1692
+2026-03-19 17:41:22,952 - INFO - Epoch 33/100 | val_loss:4.3182 | Recall@5:0.5353 | Recall@10:0.6474 | NDCG@10:0.4275
+2026-03-19 17:42:00,057 - INFO - Epoch 34 - Train Loss: 3.1663
+2026-03-19 17:42:04,626 - INFO - Epoch 34/100 | val_loss:4.3622 | Recall@5:0.5414 | Recall@10:0.6478 | NDCG@10:0.4263
+2026-03-19 17:42:41,496 - INFO - Epoch 35 - Train Loss: 3.1517
+2026-03-19 17:42:46,070 - INFO - Epoch 35/100 | val_loss:4.3443 | Recall@5:0.5382 | Recall@10:0.6461 | NDCG@10:0.4273
+2026-03-19 17:43:22,814 - INFO - Epoch 36 - Train Loss: 3.1376
+2026-03-19 17:43:27,379 - INFO - Epoch 36/100 | val_loss:4.3614 | Recall@5:0.5385 | Recall@10:0.6481 | NDCG@10:0.4253
+2026-03-19 17:44:04,136 - INFO - Epoch 37 - Train Loss: 3.1287
+2026-03-19 17:44:08,745 - INFO - Epoch 37/100 | val_loss:4.3370 | Recall@5:0.5330 | Recall@10:0.6478 | NDCG@10:0.4264
+2026-03-19 17:44:45,473 - INFO - Epoch 38 - Train Loss: 3.1220
+2026-03-19 17:44:50,041 - INFO - Epoch 38/100 | val_loss:4.3452 | Recall@5:0.5456 | Recall@10:0.6552 | NDCG@10:0.4329
+2026-03-19 17:44:50,103 - INFO -   Best model saved — Recall@5=0.5456
+2026-03-19 17:45:26,912 - INFO - Epoch 39 - Train Loss: 3.1111
+2026-03-19 17:45:31,521 - INFO - Epoch 39/100 | val_loss:4.3518 | Recall@5:0.5421 | Recall@10:0.6539 | NDCG@10:0.4340
+2026-03-19 17:46:08,454 - INFO - Epoch 40 - Train Loss: 3.0940
+2026-03-19 17:46:13,015 - INFO - Epoch 40/100 | val_loss:4.3654 | Recall@5:0.5456 | Recall@10:0.6519 | NDCG@10:0.4308
+2026-03-19 17:46:49,861 - INFO - Epoch 41 - Train Loss: 3.0824
+2026-03-19 17:46:54,594 - INFO - Epoch 41/100 | val_loss:4.3722 | Recall@5:0.5459 | Recall@10:0.6503 | NDCG@10:0.4287
+2026-03-19 17:46:54,653 - INFO -   Best model saved — Recall@5=0.5459
+2026-03-19 17:47:31,526 - INFO - Epoch 42 - Train Loss: 3.0702
+2026-03-19 17:47:36,106 - INFO - Epoch 42/100 | val_loss:4.3815 | Recall@5:0.5314 | Recall@10:0.6468 | NDCG@10:0.4273
+2026-03-19 17:48:12,758 - INFO - Epoch 43 - Train Loss: 3.0590
+2026-03-19 17:48:17,358 - INFO - Epoch 43/100 | val_loss:4.3757 | Recall@5:0.5440 | Recall@10:0.6507 | NDCG@10:0.4319
+2026-03-19 17:48:54,146 - INFO - Epoch 44 - Train Loss: 3.0406
+2026-03-19 17:48:58,738 - INFO - Epoch 44/100 | val_loss:4.3897 | Recall@5:0.5456 | Recall@10:0.6519 | NDCG@10:0.4303
+2026-03-19 17:49:35,440 - INFO - Epoch 45 - Train Loss: 3.0417
+2026-03-19 17:49:39,988 - INFO - Epoch 45/100 | val_loss:4.4138 | Recall@5:0.5459 | Recall@10:0.6526 | NDCG@10:0.4326
+2026-03-19 17:50:16,862 - INFO - Epoch 46 - Train Loss: 3.0283
+2026-03-19 17:50:21,416 - INFO - Epoch 46/100 | val_loss:4.4008 | Recall@5:0.5337 | Recall@10:0.6458 | NDCG@10:0.4292
+2026-03-19 17:50:58,238 - INFO - Epoch 47 - Train Loss: 3.0205
+2026-03-19 17:51:02,838 - INFO - Epoch 47/100 | val_loss:4.3958 | Recall@5:0.5414 | Recall@10:0.6519 | NDCG@10:0.4309
+2026-03-19 17:51:39,799 - INFO - Epoch 48 - Train Loss: 3.0256
+2026-03-19 17:51:44,344 - INFO - Epoch 48/100 | val_loss:4.3825 | Recall@5:0.5443 | Recall@10:0.6519 | NDCG@10:0.4360
+2026-03-19 17:52:21,150 - INFO - Epoch 49 - Train Loss: 3.0117
+2026-03-19 17:52:25,745 - INFO - Epoch 49/100 | val_loss:4.4055 | Recall@5:0.5379 | Recall@10:0.6490 | NDCG@10:0.4284
+2026-03-19 17:53:02,459 - INFO - Epoch 50 - Train Loss: 3.0033
+2026-03-19 17:53:07,205 - INFO - Epoch 50/100 | val_loss:4.4283 | Recall@5:0.5398 | Recall@10:0.6510 | NDCG@10:0.4303
+2026-03-19 17:53:43,950 - INFO - Epoch 51 - Train Loss: 2.9965
+2026-03-19 17:53:48,510 - INFO - Epoch 51/100 | val_loss:4.3985 | Recall@5:0.5356 | Recall@10:0.6532 | NDCG@10:0.4314
+2026-03-19 17:54:25,439 - INFO - Epoch 52 - Train Loss: 2.9857
+2026-03-19 17:54:30,031 - INFO - Epoch 52/100 | val_loss:4.3987 | Recall@5:0.5421 | Recall@10:0.6529 | NDCG@10:0.4298
+2026-03-19 17:55:06,776 - INFO - Epoch 53 - Train Loss: 2.9813
+2026-03-19 17:55:11,361 - INFO - Epoch 53/100 | val_loss:4.4003 | Recall@5:0.5404 | Recall@10:0.6597 | NDCG@10:0.4348
+2026-03-19 17:55:48,121 - INFO - Epoch 54 - Train Loss: 2.9754
+2026-03-19 17:55:52,637 - INFO - Epoch 54/100 | val_loss:4.4062 | Recall@5:0.5430 | Recall@10:0.6581 | NDCG@10:0.4343
+2026-03-19 17:56:29,000 - INFO - Epoch 55 - Train Loss: 2.9679
+2026-03-19 17:56:33,540 - INFO - Epoch 55/100 | val_loss:4.4380 | Recall@5:0.5369 | Recall@10:0.6523 | NDCG@10:0.4286
+2026-03-19 17:57:10,040 - INFO - Epoch 56 - Train Loss: 2.9541
+2026-03-19 17:57:14,595 - INFO - Epoch 56/100 | val_loss:4.4252 | Recall@5:0.5443 | Recall@10:0.6565 | NDCG@10:0.4357
+2026-03-19 17:57:51,023 - INFO - Epoch 57 - Train Loss: 2.9542
+2026-03-19 17:57:55,539 - INFO - Epoch 57/100 | val_loss:4.4685 | Recall@5:0.5411 | Recall@10:0.6507 | NDCG@10:0.4307
+2026-03-19 17:58:31,921 - INFO - Epoch 58 - Train Loss: 2.9375
+2026-03-19 17:58:36,470 - INFO - Epoch 58/100 | val_loss:4.4277 | Recall@5:0.5466 | Recall@10:0.6513 | NDCG@10:0.4360
+2026-03-19 17:58:36,528 - INFO -   Best model saved — Recall@5=0.5466
+2026-03-19 17:59:13,055 - INFO - Epoch 59 - Train Loss: 2.9280
+2026-03-19 17:59:17,554 - INFO - Epoch 59/100 | val_loss:4.4359 | Recall@5:0.5430 | Recall@10:0.6565 | NDCG@10:0.4307
+2026-03-19 17:59:53,876 - INFO - Epoch 60 - Train Loss: 2.9348
+2026-03-19 17:59:58,428 - INFO - Epoch 60/100 | val_loss:4.4399 | Recall@5:0.5424 | Recall@10:0.6545 | NDCG@10:0.4325
+2026-03-19 18:00:35,100 - INFO - Epoch 61 - Train Loss: 2.9280
+2026-03-19 18:00:39,651 - INFO - Epoch 61/100 | val_loss:4.4558 | Recall@5:0.5382 | Recall@10:0.6471 | NDCG@10:0.4282
+2026-03-19 18:01:16,204 - INFO - Epoch 62 - Train Loss: 2.9186
+2026-03-19 18:01:20,741 - INFO - Epoch 62/100 | val_loss:4.4634 | Recall@5:0.5372 | Recall@10:0.6523 | NDCG@10:0.4280
+2026-03-19 18:01:57,320 - INFO - Epoch 63 - Train Loss: 2.9101
+2026-03-19 18:02:01,908 - INFO - Epoch 63/100 | val_loss:4.4621 | Recall@5:0.5446 | Recall@10:0.6510 | NDCG@10:0.4323
+2026-03-19 18:02:38,488 - INFO - Epoch 64 - Train Loss: 2.9219
+2026-03-19 18:02:42,987 - INFO - Epoch 64/100 | val_loss:4.4789 | Recall@5:0.5450 | Recall@10:0.6555 | NDCG@10:0.4324
+2026-03-19 18:03:19,515 - INFO - Epoch 65 - Train Loss: 2.9223
+2026-03-19 18:03:24,048 - INFO - Epoch 65/100 | val_loss:4.4658 | Recall@5:0.5421 | Recall@10:0.6490 | NDCG@10:0.4296
+2026-03-19 18:04:00,552 - INFO - Epoch 66 - Train Loss: 2.9048
+2026-03-19 18:04:05,052 - INFO - Epoch 66/100 | val_loss:4.4825 | Recall@5:0.5427 | Recall@10:0.6536 | NDCG@10:0.4338
+2026-03-19 18:04:41,504 - INFO - Epoch 67 - Train Loss: 2.8921
+2026-03-19 18:04:46,024 - INFO - Epoch 67/100 | val_loss:4.4846 | Recall@5:0.5417 | Recall@10:0.6519 | NDCG@10:0.4304
+2026-03-19 18:05:22,476 - INFO - Epoch 68 - Train Loss: 2.8839
+2026-03-19 18:05:27,062 - INFO - Epoch 68/100 | val_loss:4.4717 | Recall@5:0.5566 | Recall@10:0.6545 | NDCG@10:0.4336
+2026-03-19 18:05:27,272 - INFO -   Best model saved — Recall@5=0.5566
+2026-03-19 18:06:03,777 - INFO - Epoch 69 - Train Loss: 2.8763
+2026-03-19 18:06:08,306 - INFO - Epoch 69/100 | val_loss:4.4626 | Recall@5:0.5469 | Recall@10:0.6571 | NDCG@10:0.4311
+2026-03-19 18:06:44,710 - INFO - Epoch 70 - Train Loss: 2.8733
+2026-03-19 18:06:49,228 - INFO - Epoch 70/100 | val_loss:4.4824 | Recall@5:0.5462 | Recall@10:0.6513 | NDCG@10:0.4326
+2026-03-19 18:07:25,778 - INFO - Epoch 71 - Train Loss: 2.8759
+2026-03-19 18:07:30,316 - INFO - Epoch 71/100 | val_loss:4.4854 | Recall@5:0.5395 | Recall@10:0.6497 | NDCG@10:0.4314
+2026-03-19 18:08:06,906 - INFO - Epoch 72 - Train Loss: 2.8727
+2026-03-19 18:08:11,424 - INFO - Epoch 72/100 | val_loss:4.4995 | Recall@5:0.5414 | Recall@10:0.6558 | NDCG@10:0.4334
+2026-03-19 18:08:47,808 - INFO - Epoch 73 - Train Loss: 2.8689
+2026-03-19 18:08:52,406 - INFO - Epoch 73/100 | val_loss:4.4810 | Recall@5:0.5469 | Recall@10:0.6539 | NDCG@10:0.4345
+2026-03-19 18:09:28,927 - INFO - Epoch 74 - Train Loss: 2.8736
+2026-03-19 18:09:33,464 - INFO - Epoch 74/100 | val_loss:4.4761 | Recall@5:0.5430 | Recall@10:0.6497 | NDCG@10:0.4308
+2026-03-19 18:10:09,915 - INFO - Epoch 75 - Train Loss: 2.8681
+2026-03-19 18:10:14,435 - INFO - Epoch 75/100 | val_loss:4.4804 | Recall@5:0.5427 | Recall@10:0.6590 | NDCG@10:0.4334
+2026-03-19 18:10:50,809 - INFO - Epoch 76 - Train Loss: 2.8573
+2026-03-19 18:10:55,318 - INFO - Epoch 76/100 | val_loss:4.4935 | Recall@5:0.5450 | Recall@10:0.6574 | NDCG@10:0.4331
+2026-03-19 18:11:31,733 - INFO - Epoch 77 - Train Loss: 2.8585
+2026-03-19 18:11:36,278 - INFO - Epoch 77/100 | val_loss:4.4863 | Recall@5:0.5450 | Recall@10:0.6545 | NDCG@10:0.4321
+2026-03-19 18:12:12,610 - INFO - Epoch 78 - Train Loss: 2.8508
+2026-03-19 18:12:17,135 - INFO - Epoch 78/100 | val_loss:4.4996 | Recall@5:0.5504 | Recall@10:0.6490 | NDCG@10:0.4347
+2026-03-19 18:12:53,537 - INFO - Epoch 79 - Train Loss: 2.8575
+2026-03-19 18:12:58,133 - INFO - Epoch 79/100 | val_loss:4.4950 | Recall@5:0.5440 | Recall@10:0.6561 | NDCG@10:0.4358
+2026-03-19 18:13:34,557 - INFO - Epoch 80 - Train Loss: 2.8466
+2026-03-19 18:13:39,248 - INFO - Epoch 80/100 | val_loss:4.5080 | Recall@5:0.5462 | Recall@10:0.6484 | NDCG@10:0.4275
+2026-03-19 18:14:15,741 - INFO - Epoch 81 - Train Loss: 2.8319
+2026-03-19 18:14:20,288 - INFO - Epoch 81/100 | val_loss:4.5079 | Recall@5:0.5430 | Recall@10:0.6516 | NDCG@10:0.4285
+2026-03-19 18:14:56,885 - INFO - Epoch 82 - Train Loss: 2.8291
+2026-03-19 18:15:01,439 - INFO - Epoch 82/100 | val_loss:4.5193 | Recall@5:0.5443 | Recall@10:0.6523 | NDCG@10:0.4319
+2026-03-19 18:15:38,950 - INFO - Epoch 83 - Train Loss: 2.8366
+2026-03-19 18:15:43,532 - INFO - Epoch 83/100 | val_loss:4.5128 | Recall@5:0.5456 | Recall@10:0.6516 | NDCG@10:0.4304
+2026-03-19 18:16:20,160 - INFO - Epoch 84 - Train Loss: 2.8204
+2026-03-19 18:16:24,728 - INFO - Epoch 84/100 | val_loss:4.5127 | Recall@5:0.5440 | Recall@10:0.6545 | NDCG@10:0.4322
+2026-03-19 18:17:01,240 - INFO - Epoch 85 - Train Loss: 2.8213
+2026-03-19 18:17:05,780 - INFO - Epoch 85/100 | val_loss:4.4993 | Recall@5:0.5421 | Recall@10:0.6526 | NDCG@10:0.4363
+2026-03-19 18:17:42,393 - INFO - Epoch 86 - Train Loss: 2.8258
+2026-03-19 18:17:46,950 - INFO - Epoch 86/100 | val_loss:4.5065 | Recall@5:0.5462 | Recall@10:0.6542 | NDCG@10:0.4325
+2026-03-19 18:18:23,472 - INFO - Epoch 87 - Train Loss: 2.8256
+2026-03-19 18:18:28,028 - INFO - Epoch 87/100 | val_loss:4.5182 | Recall@5:0.5414 | Recall@10:0.6519 | NDCG@10:0.4310
+2026-03-19 18:19:04,699 - INFO - Epoch 88 - Train Loss: 2.8267
+2026-03-19 18:19:09,222 - INFO - Epoch 88/100 | val_loss:4.5233 | Recall@5:0.5469 | Recall@10:0.6474 | NDCG@10:0.4288
+2026-03-19 18:19:45,705 - INFO - Epoch 89 - Train Loss: 2.8139
+2026-03-19 18:19:50,244 - INFO - Epoch 89/100 | val_loss:4.5197 | Recall@5:0.5382 | Recall@10:0.6513 | NDCG@10:0.4298
+2026-03-19 18:20:27,085 - INFO - Epoch 90 - Train Loss: 2.8039
+2026-03-19 18:20:31,624 - INFO - Epoch 90/100 | val_loss:4.5148 | Recall@5:0.5404 | Recall@10:0.6510 | NDCG@10:0.4305
+2026-03-19 18:21:08,174 - INFO - Epoch 91 - Train Loss: 2.8069
+2026-03-19 18:21:12,765 - INFO - Epoch 91/100 | val_loss:4.5306 | Recall@5:0.5469 | Recall@10:0.6549 | NDCG@10:0.4303
+2026-03-19 18:21:49,225 - INFO - Epoch 92 - Train Loss: 2.8051
+2026-03-19 18:21:53,782 - INFO - Epoch 92/100 | val_loss:4.5500 | Recall@5:0.5372 | Recall@10:0.6503 | NDCG@10:0.4304
+2026-03-19 18:22:30,109 - INFO - Epoch 93 - Train Loss: 2.7893
+2026-03-19 18:22:34,596 - INFO - Epoch 93/100 | val_loss:4.5499 | Recall@5:0.5472 | Recall@10:0.6519 | NDCG@10:0.4332
+2026-03-19 18:23:10,765 - INFO - Epoch 94 - Train Loss: 2.7918
+2026-03-19 18:23:15,307 - INFO - Epoch 94/100 | val_loss:4.5475 | Recall@5:0.5495 | Recall@10:0.6542 | NDCG@10:0.4332
+2026-03-19 18:23:51,643 - INFO - Epoch 95 - Train Loss: 2.7940
+2026-03-19 18:23:56,202 - INFO - Epoch 95/100 | val_loss:4.5398 | Recall@5:0.5421 | Recall@10:0.6481 | NDCG@10:0.4357
+2026-03-19 18:24:32,753 - INFO - Epoch 96 - Train Loss: 2.7875
+2026-03-19 18:24:37,276 - INFO - Epoch 96/100 | val_loss:4.5463 | Recall@5:0.5456 | Recall@10:0.6474 | NDCG@10:0.4310
+2026-03-19 18:25:13,737 - INFO - Epoch 97 - Train Loss: 2.7871
+2026-03-19 18:25:18,317 - INFO - Epoch 97/100 | val_loss:4.5495 | Recall@5:0.5430 | Recall@10:0.6500 | NDCG@10:0.4307
+2026-03-19 18:25:54,681 - INFO - Epoch 98 - Train Loss: 2.7841
+2026-03-19 18:25:59,198 - INFO - Epoch 98/100 | val_loss:4.5623 | Recall@5:0.5388 | Recall@10:0.6510 | NDCG@10:0.4308
+2026-03-19 18:26:35,736 - INFO - Epoch 99 - Train Loss: 2.7823
+2026-03-19 18:26:40,480 - INFO - Epoch 99/100 | val_loss:4.5449 | Recall@5:0.5430 | Recall@10:0.6532 | NDCG@10:0.4342
+2026-03-19 18:27:16,923 - INFO - Epoch 100 - Train Loss: 2.7884
+2026-03-19 18:27:21,445 - INFO - Epoch 100/100 | val_loss:4.5421 | Recall@5:0.5440 | Recall@10:0.6503 | NDCG@10:0.4329
+2026-03-19 18:27:21,445 - INFO - 
+Training completed. Best epoch: 68, Best Val Recall@5: 0.5566

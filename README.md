@@ -1,29 +1,27 @@
 # RoPOI
-![](https://img.shields.io/badge/python-3.8.13-green)
-![](https://img.shields.io/badge/pytorch-1.12.1-green)
-![](https://img.shields.io/badge/cudatoolkit-11.6.0-green)
-![](https://img.shields.io/badge/cudnn-7.6.5-green)
 
-This folder provides a reference implementation of paper -- RoPOI: Robust POI Recommendation based on Modality Disentanglement and Missing Representation Generation
+This is the PyTorch implementation of the paper "RoPOI: Robust POI Recommendation based on Modality Disentanglement and Missing Representation Generation"
 
-## Basic Usage
+![model-structure](figures/framework_.png)
 
-### Requirements
 
-The code was tested with `python 3.8.13`, `pytorch 1.12.1`,  `cudatoolkit 11.6.0`, and `cudnn 7.6.5`. Install the dependencies via [Anaconda](https://www.anaconda.com/):
+## Train
 
-```shell
-# create virtual environment
-conda create --name RoPOI python=3.8.13
+- Download dataset from https://drive.google.com/file/d/17FbNvkO74xub6AeT2fpm938qDqUDB-04/view?usp=sharing.
 
-# activate environment
-conda activate RoPOI
+- Unzip `NYC.zip` to `dataset/`.
 
-# install pytorch & cudatoolkit
-conda install pytorch torchvision torchaudio cudatoolkit=11.6 -c pytorch -c conda-forge
-# install other requirements
-conda install numpy pandas
-pip install scikit-learn
-```
+- Run `build_graph.py` to construct the sequence graphs from the training data.
 
-### Run the code
+- Train the model using `python train.py`. All hyper-parameters are defined in `param_parser.py`
+
+## Test
+python run.py --test_only --checkpoint RoPOI_best_20260415_152057.pth
+
+## Raw Dataset 
+
+NYC: https://drive.google.com/file/d/1v0BvKs46ixUf1CgjRlk9MY5JsFL7ILxC/view?usp=sharing
+
+TKY: https://drive.google.com/file/d/1Cpnp2iEmHGfvUkOL-8myeQmyOuq4LmV7/view?usp=sharing
+
+Please cite our paper if you use these datasets, thank you very much!
