@@ -96,11 +96,12 @@ python run.py --test_only --checkpoint RoPOI_best_20260415_152057.pth
 
 | Dataset | Link |
 |---------|------|
-| NYC | [Download](https://drive.google.com/file/d/1v0BvKs46ixUf1CgjRlk9MY5JsFL7ILxC/view?usp=sharing) |
-| TKY | [Download](https://drive.google.com/file/d/1Cpnp2iEmHGfvUkOL-8myeQmyOuq4LmV7/view?usp=sharing) |
+| NYC  | [Download](https://sites.google.com/site/yangdingqi/home/foursquare-dataset) |
+| TKY  | [Download](https://sites.google.com/site/yangdingqi/home/foursquare-dataset) |
+| NOLA | [Download](https://www.yelp.com/dataset) |
 
 ---
 
 <div align="center">
-If you use our datasets or code, please cite our paper. Thank you! 🙏
+Thank you for your attention to this implementation! 🙏
 </div>
