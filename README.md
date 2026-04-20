@@ -2,7 +2,7 @@
 
 This is the PyTorch implementation of the paper "RoPOI: Robust POI Recommendation based on Modality Disentanglement and Missing Representation Generation"
 
-![model-structure](figures/framework_.png)
+![model-structure](figures/framework.png)
 
 
 ## Train
