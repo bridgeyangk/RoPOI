@@ -13,7 +13,7 @@ This is the PyTorch implementation of the paper "RoPOI: Robust POI Recommendatio
 
 - Run `build_graph.py` to construct the sequence graphs from the training data.
 
-- Train the model using `python train.py`. All hyper-parameters are defined in `param_parser.py`
+- Train the model using `python run.py`. All hyper-parameters are defined in `param_parser.py`
 
 ## Test
 python run.py --test_only --checkpoint RoPOI_best_20260415_152057.pth
