@@ -250,19 +250,16 @@ class MissingModalityGenerator(nn.Module):
         return gen_common + gen_specific
 
 
-class DGMRecLoss(nn.Module):
-    """DGMRec: 解耦损失 + 生成损失（不参与实际推理）"""
+class DisenLoss(nn.Module):
     def __init__(self, temperature=0.07):
-        super(DGMRecLoss, self).__init__()
+        super(DisenLoss, self).__init__()
         self.temperature = temperature
 
     def disentangle_loss(self, common, specifics):
-        # L_align: 通用特征与专有特征正交（InfoNCE风格）
         l_align = sum(
             F.cosine_similarity(common, s, dim=-1).abs().mean()
             for s in specifics
         )
-        # L_recon: 专有特征间互斥（对比损失）
         if len(specifics) >= 2:
             sim = F.cosine_similarity(specifics[0], specifics[1], dim=-1)
             l_recon = torch.clamp(sim + 1.0, min=0).mean()
