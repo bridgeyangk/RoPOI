@@ -15,7 +15,7 @@ import sys
 import geohash as geohash_lib
 from utils import top_k_acc_last_timestep, ndcg_last_timestep
 from model import POIGraph, TransformerModel, UserEmbeddings, Time2Vec, FuseEmbeddings, \
-    ModalityDisentanglement, UserModalityPreference, MissingModalityGenerator, DGMRecLoss
+    ModalityDisentanglement, UserModalityPreference, MissingModalityGenerator, DisenLoss
 from param_parser import parameter_parser
 
 args = parameter_parser()
@@ -233,10 +233,9 @@ seq_model = TransformerModel(num_pois, num_geos, num_times, dim,
                              args.transformer_nhead, args.transformer_nhid,
                              args.transformer_nlayers, dropout=args.transformer_dropout)
 
-dgmrec_disentangle = ModalityDisentanglement(embed_dim=dim)
-dgmrec_user_pref = UserModalityPreference(num_users=num_users, num_modalities=2, embed_dim=dim)
-dgmrec_missing_gen = MissingModalityGenerator(embed_dim=dim)
-logging.info("DGMRec modules initialized (not used in inference path)")
+model_disentangle = ModalityDisentanglement(embed_dim=dim)
+model_user_pref = UserModalityPreference(num_users=num_users, num_modalities=2, embed_dim=dim)
+model_missing_gen = MissingModalityGenerator(embed_dim=dim)
 
 poi_embed_model = poi_embed_model.to(device=args.device)
 user_embed_model = user_embed_model.to(device=args.device)
@@ -244,9 +243,9 @@ time_embed_model = time_embed_model.to(device=args.device)
 geo_embed_model = geo_embed_model.to(device=args.device)
 embed_fuse_model = embed_fuse_model.to(device=args.device)
 seq_model = seq_model.to(device=args.device)
-dgmrec_disentangle = dgmrec_disentangle.to(device=args.device)
-dgmrec_user_pref = dgmrec_user_pref.to(device=args.device)
-dgmrec_missing_gen = dgmrec_missing_gen.to(device=args.device)
+model_disentangle = model_disentangle.to(device=args.device)
+model_user_pref = model_user_pref.to(device=args.device)
+model_missing_gen = model_missing_gen.to(device=args.device)
 
 optimizer = optim.Adam(
     list(poi_embed_model.parameters()) + list(user_embed_model.parameters()) +
@@ -261,7 +260,7 @@ lr_scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
 criterion_poi = nn.CrossEntropyLoss(ignore_index=-1)
 criterion_geo = nn.CrossEntropyLoss(ignore_index=-1)
 criterion_time = nn.CrossEntropyLoss(ignore_index=-1)
-dgmrec_loss_fn = DGMRecLoss(temperature=0.07)
+model_loss_fn = modelLoss(temperature=0.07)
 criterion_time = nn.CrossEntropyLoss(ignore_index=-1)
 
 # Prepare indices for embedding lookup
@@ -402,9 +401,9 @@ for epoch in range(0 if args.test_only else args.epochs):
 
         with torch.no_grad():
             _x_mean = x.mean(dim=1)
-            _common, _specifics = dgmrec_disentangle([_x_mean, _x_mean])
-            _gen = dgmrec_missing_gen(_common, _specifics[0])
-            _ = dgmrec_loss_fn(_common, _specifics, _gen, _x_mean)
+            _common, _specifics = model_disentangle([_x_mean, _x_mean])
+            _gen = model_missing_gen(_common, _specifics[0])
+            _ = model_loss_fn(_common, _specifics, _gen, _x_mean)
 
         optimizer.zero_grad()
         loss.backward()
