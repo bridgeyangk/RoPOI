@@ -63,7 +63,7 @@ pip install scikit-learn==1.0.2
 ### 1. Prepare Data
 
 ```shell
-cd iPCM-main
+cd RoPOI-main
 ```
 
 - 📦 Download dataset: [NYC.zip](https://drive.google.com/file/d/1xLXcRriNpMF9rAqsQOc4csjJBAeBuziP/view?usp=sharing) → unzip to `data/NYC/`
