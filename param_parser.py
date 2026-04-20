@@ -1,11 +1,11 @@
-"""Parameter parser for RoPOI adapted to MM-POI dataset"""
+"""Parameter parser for RoPOI"""
 import argparse
 import torch
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
 def parameter_parser():
-    parser = argparse.ArgumentParser(description="RoPOI for MM-POI dataset")
+    parser = argparse.ArgumentParser(description="Parameter parser for RoPOI")
 
     # Dataset paths
     parser.add_argument('--data_train', type=str, default='data/NYC/NYC_train.csv')
