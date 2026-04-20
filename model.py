@@ -69,7 +69,7 @@ class FuseEmbeddings(nn.Module):
         self.leaky_relu = nn.LeakyReLU(0.2)
 
     def forward(self, embed1, embed2):
-        x = self.fuse_embed(torch.cat((embed1, embed2), -1))  # Fixed: use dim=-1 for feature concatenation
+        x = self.fuse_embed(torch.cat((embed1, embed2), -1)) 
         x = self.leaky_relu(x)
         return x
 
@@ -148,7 +148,6 @@ class TransformerModel(nn.Module):
         return out_poi, out_time, out_region
 
     def generate_square_subsequent_mask(self, sz):
-        """Generate a square mask for the sequence. The masked positions are filled with float('-inf')."""
         mask = (torch.triu(torch.ones(sz, sz)) == 1).transpose(0, 1)
         mask = mask.float().masked_fill(mask == 0, float('-inf')).masked_fill(mask == 1, float(0.0))
         return mask
@@ -203,23 +202,56 @@ class GCN(nn.Module):
 
 
 class DisenModule(nn.Module):
-    def __init__(self, embed_dim, num_users, num_modalities=2, num_heads=2):
+    def __init__(self, embed_dim, num_users, num_modalities=2, num_heads=2, temperature=0.07):
         super(DisenModule, self).__init__()
-        self.common_attn = nn.MultiheadAttention(embed_dim, num_heads, batch_first=True)
-        self.common_proj = nn.Linear(embed_dim, embed_dim)
+        self.temperature = temperature
+        self.embed_dim = embed_dim
+
+        self.general_attn = nn.MultiheadAttention(embed_dim, num_heads, batch_first=True)
+        self.general_proj = nn.Linear(embed_dim, embed_dim)
+
+
         self.specific_proj = nn.Linear(embed_dim, embed_dim)
-        self.layer_norm = nn.LayerNorm(embed_dim)
-        self.user_pref = nn.Embedding(num_users, num_modalities)
-        self.missing_gen = nn.Sequential(
-            nn.Linear(embed_dim * 2, embed_dim), nn.LeakyReLU(0.2), nn.Linear(embed_dim, embed_dim)
+        self.mu_general = nn.Linear(embed_dim, embed_dim)
+        self.logvar_general = nn.Linear(embed_dim, embed_dim)
+        self.mu_specific = nn.Linear(embed_dim, embed_dim)
+        self.logvar_specific = nn.Linear(embed_dim, embed_dim)
+        self.decoder = nn.Sequential(
+            nn.Linear(embed_dim * 2, embed_dim),
+            nn.LeakyReLU(0.2),
+            nn.Linear(embed_dim, embed_dim)
         )
+
+        self.layer_norm = nn.LayerNorm(embed_dim)
+
+    def reparameterize(self, mu, logvar):
+        std = torch.exp(0.5 * logvar)
+        eps = torch.randn_like(std)
+        return mu + eps * std
 
     def forward(self, x):
         stacked = torch.stack([x, x], dim=1)
-        common, _ = self.common_attn(stacked, stacked, stacked)
-        common = self.layer_norm(self.common_proj(common.mean(dim=1)))
-        specific = self.layer_norm(self.specific_proj(x) - common)
-        gen = self.missing_gen(torch.cat([common, specific], dim=-1))
-        l_align = F.cosine_similarity(common, specific, dim=-1).abs().mean()
-        l_gen = F.mse_loss(gen, x.detach())
-        return 0.01 * l_align + l_gen
+        g_feat, _ = self.general_attn(stacked, stacked, stacked)
+        g_feat = self.layer_norm(self.general_proj(g_feat.mean(dim=1)))
+        mu_g, logvar_g = self.mu_general(g_feat), torch.clamp(self.logvar_general(g_feat), -10, 2)
+        z_g = self.reparameterize(mu_g, logvar_g)
+
+        s_feat = self.layer_norm(self.specific_proj(x) - g_feat)
+        mu_s, logvar_s = self.mu_specific(s_feat), torch.clamp(self.logvar_specific(s_feat), -10, 2)
+        z_s = self.reparameterize(mu_s, logvar_s)
+
+        kl_g = -0.5 * (1 + logvar_g - mu_g.pow(2) - logvar_g.exp()).sum(dim=-1).mean()
+        kl_s = -0.5 * (1 + logvar_s - mu_s.pow(2) - logvar_s.exp()).sum(dim=-1).mean()
+        l_kl = kl_g + kl_s
+
+
+        z_g_norm = F.normalize(z_g, dim=-1)
+        z_s_norm = F.normalize(z_s, dim=-1)
+        logits = torch.mm(z_g_norm, z_s_norm.t()) / self.temperature
+        labels = torch.arange(x.size(0), device=x.device)
+        l_infonce = F.cross_entropy(logits, labels)
+
+        x_recon = self.decoder(torch.cat([z_g, z_s], dim=-1))
+        l_recon = F.mse_loss(x_recon, x.detach())
+
+        return 0.01*l_kl + l_infonce + l_recon
