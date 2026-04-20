@@ -203,7 +203,6 @@ class GCN(nn.Module):
 
 
 class ModalityDisentanglement(nn.Module):
-    """DGMRec: 模态通用/专有特征解耦"""
     def __init__(self, embed_dim, num_heads=2):
         super(ModalityDisentanglement, self).__init__()
         self.common_attn = nn.MultiheadAttention(embed_dim, num_heads, batch_first=True)
@@ -220,7 +219,6 @@ class ModalityDisentanglement(nn.Module):
 
 
 class UserModalityPreference(nn.Module):
-    """DGMRec: 用户模态偏好计算"""
     def __init__(self, num_users, num_modalities, embed_dim):
         super(UserModalityPreference, self).__init__()
         self.preference = nn.Embedding(num_users, num_modalities)
@@ -235,7 +233,6 @@ class UserModalityPreference(nn.Module):
 
 
 class MissingModalityGenerator(nn.Module):
-    """DGMRec: 缺失模态生成（基于通用特征 + 专有特征重建）"""
     def __init__(self, embed_dim):
         super(MissingModalityGenerator, self).__init__()
         self.common_gen = nn.Sequential(nn.Linear(embed_dim, embed_dim), nn.LeakyReLU(0.2))
