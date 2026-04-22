@@ -14,7 +14,8 @@ import random
 import sys
 import geohash as geohash_lib
 from utils import top_k_acc_last_timestep, ndcg_last_timestep
-from model import POIGraph, TransformerModel, UserEmbeddings, Time2Vec, FuseEmbeddings, DisenModule
+import pickle
+from model import POIGraph, TransformerModel, UserEmbeddings, Time2Vec, FuseEmbeddings, DisenModule, ModalGenModule
 from param_parser import parameter_parser
 
 args = parameter_parser()
@@ -234,6 +235,34 @@ seq_model = TransformerModel(num_pois, num_geos, num_times, dim,
 
 disen_module = DisenModule(embed_dim=dim, num_users=num_users)
 
+# Load multimodal POI features (image / review / meta)
+modal_img_feat = modal_rev_feat = modal_meta_feat = None
+missing_img_mask = missing_rev_mask = missing_meta_mask = None
+
+if args.missing_modal:
+    def _load_modal(path, poi_ids_list, dim=768):
+        with open(path, 'rb') as f:
+            d = pickle.load(f)
+        mat = np.zeros((len(poi_ids_list), dim), dtype=np.float32)
+        missing = np.ones(len(poi_ids_list), dtype=bool)
+        for i, pid in enumerate(poi_ids_list):
+            if pid in d:
+                mat[i] = d[pid]
+                missing[i] = False
+        mean_vec = mat[~missing].mean(axis=0) if (~missing).any() else np.zeros(dim)
+        mat[missing] = mean_vec
+        return torch.tensor(mat, device=args.device), torch.tensor(missing, device=args.device)
+
+    data_dir = os.path.dirname(args.data_node_feats)
+    modal_img_feat,  missing_img_mask  = _load_modal(os.path.join(data_dir, 'modal_image_embedding.pkl'),  poi_ids_list)
+    modal_rev_feat,  missing_rev_mask  = _load_modal(os.path.join(data_dir, 'modal_review_embedding.pkl'), poi_ids_list)
+    modal_meta_feat, missing_meta_mask = _load_modal(os.path.join(data_dir, 'modal_meta_embedding.pkl'),   poi_ids_list)
+
+    gen_module = ModalGenModule(modal_dim=768, embed_dim=dim).to(device=args.device)
+    logging.info(f"Missing: img={missing_img_mask.sum()}, rev={missing_rev_mask.sum()}, meta={missing_meta_mask.sum()}")
+else:
+    gen_module = None
+
 poi_embed_model = poi_embed_model.to(device=args.device)
 user_embed_model = user_embed_model.to(device=args.device)
 time_embed_model = time_embed_model.to(device=args.device)
@@ -241,12 +270,15 @@ geo_embed_model = geo_embed_model.to(device=args.device)
 embed_fuse_model = embed_fuse_model.to(device=args.device)
 seq_model = seq_model.to(device=args.device)
 disen_module = disen_module.to(device=args.device)
+if gen_module is not None:
+    gen_module = gen_module.to(device=args.device)
 
 optimizer = optim.Adam(
     list(poi_embed_model.parameters()) + list(user_embed_model.parameters()) +
     list(time_embed_model.parameters()) + list(embed_fuse_model.parameters()) +
     list(seq_model.parameters()) + list(geo_embed_model.parameters()) +
-    list(disen_module.parameters()),
+    list(disen_module.parameters()) +
+    (list(gen_module.parameters()) if gen_module is not None else []),
     lr=args.lr, weight_decay=args.weight_decay)
 
 lr_scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
@@ -395,6 +427,19 @@ for epoch in range(0 if args.test_only else args.epochs):
                args.loss_weight_time * criterion_time(y_pred_time.transpose(1, 2), y_time) + \
                args.loss_weight_geo * criterion_geo(y_pred_geo.transpose(1, 2), y_geo) + \
                args.loss_weight_disen * disen_module(x.mean(dim=1))
+
+        if args.missing_modal and gen_module is not None:
+            z_g = x.mean(dim=1)
+            loss_gen = gen_module(
+                z_g=z_g,
+                img_feat=modal_img_feat,
+                rev_feat=modal_rev_feat,
+                meta_feat=modal_meta_feat,
+                missing_img=missing_img_mask,
+                missing_rev=missing_rev_mask,
+                missing_meta=missing_meta_mask,
+            )
+            loss = loss + args.loss_weight_gen * loss_gen
 
         optimizer.zero_grad()
         loss.backward()
