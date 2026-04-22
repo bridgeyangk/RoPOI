@@ -201,6 +201,73 @@ class GCN(nn.Module):
         return x
 
 
+class ModalGenModule(nn.Module):
+    """
+    Missing modality generation for image/review/meta POI features.
+    Takes z_g (general embedding from DisenModule) as the shared representation,
+    and uses cross-modal generators to generate missing modality features.
+    """
+    def __init__(self, modal_dim, embed_dim):
+        super().__init__()
+        # Project each raw modality into embed_dim
+        self.img_proj  = nn.Linear(modal_dim, embed_dim)
+        self.rev_proj  = nn.Linear(modal_dim, embed_dim)
+        self.meta_proj = nn.Linear(modal_dim, embed_dim)
+
+        # Cross-modal generators (from z_g to each modality's projected space)
+        self.gen_img  = nn.Sequential(nn.Linear(embed_dim, embed_dim), nn.Tanh(), nn.Linear(embed_dim, embed_dim))
+        self.gen_rev  = nn.Sequential(nn.Linear(embed_dim, embed_dim), nn.Tanh(), nn.Linear(embed_dim, embed_dim))
+        self.gen_meta = nn.Sequential(nn.Linear(embed_dim, embed_dim), nn.Tanh(), nn.Linear(embed_dim, embed_dim))
+
+        # Decoders: generate original raw feature from embed_dim
+        self.dec_img  = nn.Linear(embed_dim, modal_dim)
+        self.dec_rev  = nn.Linear(embed_dim, modal_dim)
+        self.dec_meta = nn.Linear(embed_dim, modal_dim)
+
+        for m in self.modules():
+            if isinstance(m, nn.Linear):
+                nn.init.xavier_uniform_(m.weight)
+
+    def forward(self, z_g, img_feat, rev_feat, meta_feat,
+                missing_img, missing_rev, missing_meta):
+        """
+        Args:
+            z_g: [N, embed_dim] general embedding from DisenModule
+            *_feat: [N, modal_dim] raw modal features (mean-filled for missing)
+            missing_*: BoolTensor [N] True where that modality is missing
+        Returns:
+            scalar loss
+        """
+        img_e  = self.img_proj(img_feat)
+        rev_e  = self.rev_proj(rev_feat)
+        meta_e = self.meta_proj(meta_feat)
+
+        # Generation loss on non-missing items
+        loss = torch.tensor(0.0, device=z_g.device)
+
+        valid_img  = ~missing_img
+        valid_rev  = ~missing_rev
+        valid_meta = ~missing_meta
+
+        if valid_img.any():
+            img_gen = self.dec_img(self.gen_img(z_g[valid_img]))
+            loss += F.mse_loss(img_gen, img_feat[valid_img].detach())
+            # Generation consistency in projected space
+            loss += F.mse_loss(self.gen_img(z_g[valid_img]), img_e[valid_img].detach())
+
+        if valid_rev.any():
+            rev_gen = self.dec_rev(self.gen_rev(z_g[valid_rev]))
+            loss += F.mse_loss(rev_gen, rev_feat[valid_rev].detach())
+            loss += F.mse_loss(self.gen_rev(z_g[valid_rev]), rev_e[valid_rev].detach())
+
+        if valid_meta.any():
+            meta_gen = self.dec_meta(self.gen_meta(z_g[valid_meta]))
+            loss += F.mse_loss(meta_gen, meta_feat[valid_meta].detach())
+            loss += F.mse_loss(self.gen_meta(z_g[valid_meta]), meta_e[valid_meta].detach())
+
+        return loss
+
+
 class DisenModule(nn.Module):
     def __init__(self, embed_dim, num_users, num_modalities=2, num_heads=2, temperature=0.07):
         super(DisenModule, self).__init__()
