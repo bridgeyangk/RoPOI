@@ -54,6 +54,12 @@ def parameter_parser():
     parser.add_argument('--loss_weight_disen', type=float, default=0.01)
 
 
+    # Missing modality
+    parser.add_argument('--missing_modal', action='store_true', default=False)
+    parser.add_argument('--missing_ratio', type=float, default=0.2,
+                        help='Ratio of POIs with missing geo/time modality')
+    parser.add_argument('--loss_weight_gen', type=float, default=0.1)
+
     # Test mode
     parser.add_argument('--test_only', action='store_true', default=False,
                         help='Only run test evaluation (no training)')
