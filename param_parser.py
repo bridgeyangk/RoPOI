@@ -50,7 +50,7 @@ def parameter_parser():
     # Loss weights
     parser.add_argument('--loss_weight_poi', type=float, default=1.0)
     parser.add_argument('--loss_weight_time', type=float, default=0.2)
-    parser.add_argument('--loss_weight_geo', type=float, default=0.2)
+    parser.add_argument('--loss_weight_cat', type=float, default=0.2)
     parser.add_argument('--loss_weight_disen', type=float, default=0.01)
 
 
