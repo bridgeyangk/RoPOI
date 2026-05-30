@@ -286,7 +286,7 @@ lr_scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
 
 # Loss functions
 criterion_poi = nn.CrossEntropyLoss(ignore_index=-1)
-criterion_geo = nn.CrossEntropyLoss(ignore_index=-1)
+criterion_cat = nn.CrossEntropyLoss(ignore_index=-1)
 criterion_time = nn.CrossEntropyLoss(ignore_index=-1)
 
 # Prepare indices for embedding lookup
@@ -425,7 +425,7 @@ for epoch in range(0 if args.test_only else args.epochs):
         # Loss
         loss = args.loss_weight_poi * criterion_poi(y_pred_poi.transpose(1, 2), y_poi) + \
                args.loss_weight_time * criterion_time(y_pred_time.transpose(1, 2), y_time) + \
-               args.loss_weight_geo * criterion_geo(y_pred_geo.transpose(1, 2), y_geo) + \
+               args.loss_weight_cat * criterion_geo(y_pred_cat.transpose(1, 2), y_cat) + \
                args.loss_weight_disen * disen_module(x.mean(dim=1))
 
         if args.missing_modal and gen_module is not None:
